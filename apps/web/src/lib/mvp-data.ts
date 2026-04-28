@@ -138,7 +138,7 @@ export const roadmapMilestones = [
 ];
 
 export const navItems = [
-  { href: "/", label: "Dashboard" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/jobs", label: "Jobs" },
   { href: "/learning", label: "Learning" },
   { href: "/applications", label: "Applications" },

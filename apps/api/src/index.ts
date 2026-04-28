@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { fetchSupabaseTable, isSupabaseConfigured } from "./supabase";
 
 dotenv.config();
 
@@ -109,6 +110,107 @@ const applications = [
   },
 ];
 
+type SupabaseJobRow = {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  work_type: string;
+  fit_score: number;
+  salary_range: string;
+  required_skills: string[];
+  summary: string;
+};
+
+type SupabaseLearningPathRow = {
+  id: string;
+  title: string;
+  progress: number;
+  duration: string;
+  level: string;
+  outcome: string;
+};
+
+type SupabaseApplicationRow = {
+  role: string;
+  company: string;
+  status: string;
+  next_step: string;
+};
+
+async function getJobs() {
+  if (!isSupabaseConfigured) {
+    return jobs;
+  }
+
+  const data = await fetchSupabaseTable<SupabaseJobRow>(
+    "jobs",
+    "?select=*&order=created_at.desc",
+  );
+  if (!data) {
+    return jobs;
+  }
+
+  return data.map((job) => ({
+    id: job.id,
+    title: job.title,
+    company: job.company,
+    location: job.location,
+    type: job.work_type,
+    fit: job.fit_score,
+    salary: job.salary_range,
+    skills: job.required_skills ?? [],
+    summary: job.summary,
+  }));
+}
+
+async function getLearningPath() {
+  if (!isSupabaseConfigured) {
+    return learningPath;
+  }
+
+  const profileId = process.env.DEMO_PROFILE_ID;
+  if (!profileId) {
+    return learningPath;
+  }
+
+  const data = await fetchSupabaseTable<SupabaseLearningPathRow>(
+    "learning_paths",
+    `?select=*&profile_id=eq.${profileId}&order=created_at.asc`,
+  );
+  if (!data || data.length === 0) {
+    return learningPath;
+  }
+
+  return data;
+}
+
+async function getApplications() {
+  if (!isSupabaseConfigured) {
+    return applications;
+  }
+
+  const profileId = process.env.DEMO_PROFILE_ID;
+  if (!profileId) {
+    return applications;
+  }
+
+  const data = await fetchSupabaseTable<SupabaseApplicationRow>(
+    "applications",
+    `?select=*&profile_id=eq.${profileId}&order=created_at.desc`,
+  );
+  if (!data || data.length === 0) {
+    return applications;
+  }
+
+  return data.map((application) => ({
+    role: application.role,
+    company: application.company,
+    status: application.status,
+    nextStep: application.next_step,
+  }));
+}
+
 app.get("/health", (_req: Request, res: Response) => {
   res.json({
     status: "ok",
@@ -125,30 +227,35 @@ app.get("/", (_req: Request, res: Response) => {
   });
 });
 
-app.get("/dashboard", (_req: Request, res: Response) => {
+app.get("/dashboard", async (_req: Request, res: Response) => {
+  const currentJobs = await getJobs();
+  const currentLearningPath = await getLearningPath();
+  const currentApplications = await getApplications();
   const averageProgress = Math.round(
-    learningPath.reduce((total, course) => total + course.progress, 0) / learningPath.length,
+    currentLearningPath.reduce((total, course) => total + course.progress, 0) /
+      currentLearningPath.length,
   );
 
   res.json({
     matchScore: 84,
-    recommendedJobs: jobs.length,
+    recommendedJobs: currentJobs.length,
     learningProgress: averageProgress,
-    activeApplications: applications.length,
+    activeApplications: currentApplications.length,
     nextAction: "Complete Google Workspace Essentials and apply to one high-fit role.",
+    source: isSupabaseConfigured ? "supabase-or-fallback" : "demo",
   });
 });
 
-app.get("/jobs", (_req: Request, res: Response) => {
-  res.json(jobs);
+app.get("/jobs", async (_req: Request, res: Response) => {
+  res.json(await getJobs());
 });
 
-app.get("/learning-path", (_req: Request, res: Response) => {
-  res.json(learningPath);
+app.get("/learning-path", async (_req: Request, res: Response) => {
+  res.json(await getLearningPath());
 });
 
-app.get("/applications", (_req: Request, res: Response) => {
-  res.json(applications);
+app.get("/applications", async (_req: Request, res: Response) => {
+  res.json(await getApplications());
 });
 
 const PORT = process.env.PORT || 4000;
