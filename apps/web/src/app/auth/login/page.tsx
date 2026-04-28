@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { isSupabaseConfigured, signInWithPassword } from "@/lib/supabase";
+import { fetchProfile, isSupabaseConfigured, signInWithPassword, upsertProfile } from "@/lib/supabase";
 import { isLoggedIn, saveSession } from "@/lib/session";
 
 export default function LoginPage() {
@@ -49,6 +49,30 @@ export default function LoginPage() {
           expires_in: result.expires_in,
           user: result.user,
         });
+
+        // Ensure a matching public.profiles row exists for this auth user.
+        const userId = result.user?.id as string | undefined;
+        if (userId) {
+          const profileResult = await fetchProfile(result.access_token, userId);
+          const hasProfile = Boolean(profileResult.data?.[0]?.id);
+
+          if (!hasProfile) {
+            const meta = (result.user?.user_metadata ?? {}) as Record<string, unknown>;
+            const fallbackName =
+              (typeof meta.full_name === "string" && meta.full_name) ||
+              email.split("@")[0] ||
+              "New user";
+
+            await upsertProfile({
+              accessToken: result.access_token,
+              id: userId,
+              full_name: fallbackName,
+              location: (typeof meta.location === "string" && meta.location) || "",
+              target_role: (typeof meta.target_role === "string" && meta.target_role) || "",
+              skills: Array.isArray(meta.skills) ? (meta.skills as string[]) : [],
+            });
+          }
+        }
       }
 
       const next =

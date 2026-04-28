@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { AuthGate } from "@/components/auth-gate";
-import { createLearningPath, fetchLearningPaths, updateLearningProgress } from "@/lib/supabase";
+import { createLearningPath, fetchLearningPaths, fetchProfile, updateLearningProgress, upsertProfile } from "@/lib/supabase";
 import { getSession } from "@/lib/session";
 
 export default function LearningPage() {
@@ -79,6 +79,20 @@ export default function LearningPage() {
     try {
       setIsCreating(true);
       setError(null);
+
+      // Ensure profile exists before inserting learning paths (FK constraint).
+      const profileResult = await fetchProfile(accessToken, userId);
+      const hasProfile = Boolean(profileResult.data?.[0]?.id);
+      if (!hasProfile) {
+        await upsertProfile({
+          accessToken,
+          id: userId,
+          full_name: "New user",
+          location: "",
+          target_role: "",
+          skills: [],
+        });
+      }
 
       const result = await createLearningPath({
         accessToken,
