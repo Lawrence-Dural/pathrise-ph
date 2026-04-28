@@ -1,23 +1,32 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
-import dotenv from "dotenv";
+export type Job = {
+  id: number;
+  title: string;
+  company: string;
+  location: string;
+  type: string;
+  fit: number;
+  salary: string;
+  skills: string[];
+  summary: string;
+};
 
-dotenv.config();
+export type Course = {
+  id: number;
+  title: string;
+  progress: number;
+  duration: string;
+  level: string;
+  outcome: string;
+};
 
-const app = express();
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  process.env.NEXT_PUBLIC_APP_URL,
-].filter(Boolean) as string[];
+export type Application = {
+  role: string;
+  company: string;
+  status: "Applied" | "Screening" | "Interview";
+  nextStep: string;
+};
 
-app.use(
-  cors({
-    origin: allowedOrigins.length > 0 ? allowedOrigins : true,
-  }),
-);
-app.use(express.json());
-
-const jobs = [
+export const jobs: Job[] = [
   {
     id: 1,
     title: "Customer Support Associate",
@@ -53,7 +62,7 @@ const jobs = [
   },
 ];
 
-const learningPath = [
+export const courses: Course[] = [
   {
     id: 1,
     title: "Workplace Communication",
@@ -88,7 +97,7 @@ const learningPath = [
   },
 ];
 
-const applications = [
+export const applications: Application[] = [
   {
     role: "Customer Support Associate",
     company: "BrightLink BPO",
@@ -109,49 +118,28 @@ const applications = [
   },
 ];
 
-app.get("/health", (_req: Request, res: Response) => {
-  res.json({
-    status: "ok",
-    service: "PathRise API",
-    environment: process.env.NODE_ENV || "development",
-  });
-});
+export const roadmapMilestones = [
+  {
+    title: "Foundation",
+    description: "Finish communication and workplace basics.",
+  },
+  {
+    title: "Job readiness",
+    description: "Complete task, tools, and service training.",
+  },
+  {
+    title: "Interview prep",
+    description: "Practice mock interviews and finalize resume.",
+  },
+  {
+    title: "Placement",
+    description: "Apply to matched entry-level roles.",
+  },
+];
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({
-    message: "PathRise API is running",
-    health: "/health",
-    endpoints: ["/dashboard", "/jobs", "/learning-path", "/applications"],
-  });
-});
-
-app.get("/dashboard", (_req: Request, res: Response) => {
-  const averageProgress = Math.round(
-    learningPath.reduce((total, course) => total + course.progress, 0) / learningPath.length,
-  );
-
-  res.json({
-    matchScore: 84,
-    recommendedJobs: jobs.length,
-    learningProgress: averageProgress,
-    activeApplications: applications.length,
-    nextAction: "Complete Google Workspace Essentials and apply to one high-fit role.",
-  });
-});
-
-app.get("/jobs", (_req: Request, res: Response) => {
-  res.json(jobs);
-});
-
-app.get("/learning-path", (_req: Request, res: Response) => {
-  res.json(learningPath);
-});
-
-app.get("/applications", (_req: Request, res: Response) => {
-  res.json(applications);
-});
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`PathRise API listening on port ${PORT}`);
-});
+export const navItems = [
+  { href: "/", label: "Dashboard" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/learning", label: "Learning" },
+  { href: "/applications", label: "Applications" },
+];
