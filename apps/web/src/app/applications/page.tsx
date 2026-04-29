@@ -10,7 +10,7 @@ import { getSession } from "@/lib/session";
 const statusColor: Record<string, string> = {
   Interview: "bg-emerald-100 text-emerald-700",
   Screening: "bg-amber-100 text-amber-700",
-  Applied: "bg-blue-100 text-blue-700",
+  Applied: "bg-blue-100 text-[var(--brand-royal)]",
 };
 
 export default function ApplicationsPage() {
@@ -109,13 +109,13 @@ export default function ApplicationsPage() {
         title="Stay on top of every application"
         subtitle="Track what you applied to, where you are in the hiring process, and what action to take next."
       >
-        <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <section className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
               Application pipeline
             </p>
-            <p className="text-sm text-zinc-500">Filter by stage and follow the next step.</p>
+            <p className="text-sm text-[var(--text-slate)]">Filter by stage and follow the next step.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {["All", "Applied", "Screening", "Interview"].map((status) => (
@@ -124,8 +124,8 @@ export default function ApplicationsPage() {
                 onClick={() => setFilter(status)}
                 className={`rounded-full px-3 py-1.5 text-sm ${
                   filter === status
-                    ? "bg-zinc-900 text-white"
-                    : "border border-zinc-300 bg-white text-zinc-700"
+                    ? "bg-[var(--brand-navy)] text-white"
+                    : "border border-blue-200 bg-white text-[var(--text-slate)]"
                 }`}
               >
                 {status}
@@ -153,19 +153,19 @@ export default function ApplicationsPage() {
               </p>
               <div className="mt-4 grid gap-3 md:grid-cols-2">
                 <input
-                  className="rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
                   placeholder="Role"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                 />
                 <input
-                  className="rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
                   placeholder="Company"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                 />
                 <select
-                  className="rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                  className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
                   value={status}
                   onChange={(e) => setStatus(e.target.value as typeof status)}
                 >
@@ -174,7 +174,7 @@ export default function ApplicationsPage() {
                   <option value="Interview">Interview</option>
                 </select>
                 <input
-                  className="rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                  className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
                   placeholder="Next step (optional)"
                   value={nextStep}
                   onChange={(e) => setNextStep(e.target.value)}
@@ -183,7 +183,7 @@ export default function ApplicationsPage() {
               <button
                 onClick={handleAdd}
                 disabled={isAdding || !role || !company}
-                className="mt-4 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+                className="mt-4 rounded-lg bg-[var(--brand-royal)] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
               >
                 {isAdding ? "Adding..." : "Add application"}
               </button>

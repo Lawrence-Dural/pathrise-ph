@@ -69,25 +69,26 @@ export function AppShell({ children, title, subtitle, variant = "app" }: AppShel
   }, [isAuthVariant]);
 
   return (
-    <main className="min-h-screen bg-zinc-50 text-zinc-900">
+    <main className="min-h-screen bg-[var(--brand-light)] text-[var(--text-dark-slate)]">
       <div className="mx-auto max-w-6xl px-6 py-8 md:py-10">
-        <header className="mb-6 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <header className="mb-6 rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Link href="/dashboard" className="text-xl font-semibold">
+              <Link href="/dashboard" className="text-2xl font-semibold text-[var(--brand-navy)]">
                 PathRise PH
               </Link>
-              <p className="text-sm text-zinc-500">
+              <p className="text-sm text-[var(--text-slate)]">
                 Career guidance for Filipino youth and fresh graduates
               </p>
             </div>
             {!isAuthVariant && loggedIn ? (
               <div className="flex flex-col items-start gap-2 md:items-end">
-                <p className="text-sm text-zinc-600">
-                  Hello, <span className="font-semibold text-zinc-900">{userName ?? "..."}</span>
+                <p className="text-sm text-[var(--text-slate)]">
+                  Hello,{" "}
+                  <span className="font-semibold text-[var(--brand-navy)]">{userName ?? "..."}</span>
                 </p>
                 <button
-                  className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100"
+                  className="rounded-lg border border-blue-200 px-4 py-2 text-sm font-medium text-[var(--brand-navy)] hover:bg-blue-50"
                   onClick={() => {
                     clearSession();
                     router.replace("/auth/login");
@@ -109,8 +110,8 @@ export function AppShell({ children, title, subtitle, variant = "app" }: AppShel
                     href={item.href}
                     className={`rounded-full px-4 py-2 text-sm font-medium ${
                       isActive
-                        ? "bg-zinc-900 text-white"
-                        : "border border-zinc-300 bg-white text-zinc-700"
+                      ? "bg-[var(--brand-navy)] text-white"
+                      : "border border-blue-200 bg-white text-[var(--text-slate)] hover:border-[var(--brand-royal)] hover:text-[var(--brand-royal)]"
                     }`}
                   >
                     {item.label}
@@ -121,12 +122,12 @@ export function AppShell({ children, title, subtitle, variant = "app" }: AppShel
           ) : null}
         </header>
 
-        <section className="mb-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 p-6 text-white">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-100">
+        <section className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--brand-navy)] to-[var(--brand-royal)] p-6 text-white shadow-md">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-100">
             PathRise MVP
           </p>
           <h1 className="mt-2 text-3xl font-semibold">{title}</h1>
-          <p className="mt-2 max-w-2xl text-sm text-indigo-100 md:text-base">{subtitle}</p>
+          <p className="mt-2 max-w-2xl text-sm text-blue-100 md:text-base">{subtitle}</p>
         </section>
 
         {children}

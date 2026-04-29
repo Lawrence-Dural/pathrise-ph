@@ -156,7 +156,7 @@ export default function RegisterPage() {
           </div>
           <div className="md:col-span-2">
             <button
-              className="w-full rounded-lg bg-zinc-900 px-4 py-3 text-sm font-medium text-white disabled:opacity-60"
+              className="w-full rounded-lg bg-[var(--brand-royal)] px-4 py-3 text-sm font-medium text-white disabled:opacity-60"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Creating account..." : "Create account"}

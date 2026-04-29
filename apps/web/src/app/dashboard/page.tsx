@@ -35,6 +35,18 @@ export default function DashboardPage() {
     );
   }, [learningPath]);
 
+  const matchScore = useMemo(() => {
+    // New users should start at 0 until they have both path progress and job data.
+    if (learningPath.length === 0 || jobs.length === 0) return 0;
+
+    const topJobs = jobs.slice(0, 5);
+    const avgFit =
+      topJobs.reduce((total, job) => total + (job.fit_score || 0), 0) / topJobs.length;
+
+    // Blend market fit with user learning progress for a more realistic score.
+    return Math.round(avgFit * 0.7 + learningProgress * 0.3);
+  }, [jobs, learningPath, learningProgress]);
+
   useEffect(() => {
     const run = async () => {
       try {
@@ -79,24 +91,24 @@ export default function DashboardPage() {
         subtitle="See your best job matches, keep learning progress moving, and track applications end-to-end."
       >
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <SummaryCard label="Job Match Score" value={learningPath.length ? "84%" : "0%"} />
+          <SummaryCard label="Job Match Score" value={`${matchScore}%`} />
           <SummaryCard label="Jobs Recommended" value={String(jobs.length)} />
           <SummaryCard label="Learning Progress" value={`${learningProgress}%`} />
           <SummaryCard label="Active Applications" value={String(applications.length)} />
         </section>
 
         <section className="mt-6 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+                <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
                   Top matches today
                 </p>
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-[var(--text-slate)]">
                   Start with roles you can realistically get now.
                 </p>
               </div>
-              <Link href="/jobs" className="text-sm font-medium text-indigo-600">
+              <Link href="/jobs" className="text-sm font-medium text-[var(--brand-royal)]">
                 View jobs
               </Link>
             </div>
@@ -125,7 +137,7 @@ export default function DashboardPage() {
                           {job.company} · {job.location}
                         </p>
                       </div>
-                      <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-700">
+                      <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-semibold text-[var(--brand-royal)]">
                         {job.fit_score ?? 0}% fit
                       </span>
                     </div>
@@ -158,9 +170,9 @@ export default function DashboardPage() {
 
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <p className="text-xs uppercase tracking-wide text-zinc-500">{label}</p>
-      <p className="mt-2 text-3xl font-semibold">{value}</p>
+    <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+      <p className="text-xs uppercase tracking-wide text-[var(--text-slate)]">{label}</p>
+      <p className="mt-2 text-3xl font-semibold text-[var(--brand-navy)]">{value}</p>
     </div>
   );
 }
@@ -177,12 +189,12 @@ function ActionCard({
   cta: string;
 }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <p className="text-lg font-semibold">{title}</p>
-      <p className="mt-2 text-sm text-zinc-600">{body}</p>
+    <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+      <p className="text-lg font-semibold text-[var(--brand-navy)]">{title}</p>
+      <p className="mt-2 text-sm text-[var(--text-slate)]">{body}</p>
       <Link
         href={href}
-        className="mt-4 inline-flex rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700"
+        className="mt-4 inline-flex rounded-lg bg-[var(--brand-royal)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
       >
         {cta}
       </Link>

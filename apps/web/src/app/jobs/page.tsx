@@ -97,19 +97,19 @@ export default function JobsPage() {
         subtitle="Your job list should depend on your profile. If you have no skills set yet, you'll see an empty state until you complete your profile."
       >
         <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
           <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
                 Job matches
               </p>
-              <p className="text-sm text-zinc-500">Search by role, company, or location.</p>
+              <p className="text-sm text-[var(--text-slate)]">Search by role, company, or location.</p>
             </div>
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search jobs"
-              className="rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-indigo-500"
+              className="rounded-lg border border-blue-200 px-3 py-2 text-sm outline-none focus:border-[var(--brand-royal)]"
             />
           </div>
 
@@ -145,8 +145,8 @@ export default function JobsPage() {
                   onClick={() => setSelectedJobId(job.id)}
                   className={`w-full rounded-xl border p-4 text-left ${
                     selectedJob?.id === job.id
-                      ? "border-indigo-500 bg-indigo-50"
-                      : "border-zinc-200 hover:border-zinc-300"
+                    ? "border-[var(--brand-royal)] bg-blue-50"
+                    : "border-zinc-200 hover:border-blue-200"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -156,7 +156,7 @@ export default function JobsPage() {
                         {job.company} · {job.location}
                       </p>
                     </div>
-                    <span className="text-sm font-semibold text-indigo-600">
+                    <span className="text-sm font-semibold text-[var(--brand-royal)]">
                       {job.fit_score ?? 0}% fit
                     </span>
                   </div>
@@ -167,8 +167,8 @@ export default function JobsPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-wide text-zinc-500">Match details</p>
+        <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">Match details</p>
           {selectedJob ? (
             <>
               <h2 className="mt-3 text-2xl font-semibold">{selectedJob.title}</h2>
@@ -176,7 +176,7 @@ export default function JobsPage() {
                 {selectedJob.company} · {selectedJob.location} · {selectedJob.work_type}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-700">
+                <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-semibold text-[var(--brand-royal)]">
                   {selectedJob.fit_score ?? 0}% match
                 </span>
                 {selectedJob.salary_range ? (
@@ -200,7 +200,7 @@ export default function JobsPage() {
                 </div>
               </div>
               <button
-                className="mt-6 w-full rounded-lg bg-zinc-900 px-4 py-3 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-60"
+                className="mt-6 w-full rounded-lg bg-[var(--brand-royal)] px-4 py-3 text-sm font-medium text-white hover:opacity-90 disabled:opacity-60"
                 disabled
               >
                 Apply (next step)

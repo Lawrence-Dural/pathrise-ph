@@ -152,19 +152,19 @@ export default function LearningPage() {
         subtitle="Each course exists to improve a job match, not just to collect lessons. Advance your roadmap and see what unlocks next."
       >
         <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+                <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
                   Personalized roadmap
                 </p>
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-[var(--text-slate)]">
                   New users start empty. Create your first learning path when ready.
                 </p>
               </div>
-              <div className="rounded-xl bg-indigo-50 px-4 py-3 text-right">
-                <p className="text-xs text-indigo-600">Overall progress</p>
-                <p className="text-2xl font-semibold text-indigo-700">{averageProgress}%</p>
+              <div className="rounded-xl bg-blue-50 px-4 py-3 text-right">
+                <p className="text-xs text-[var(--brand-royal)]">Overall progress</p>
+                <p className="text-2xl font-semibold text-[var(--brand-navy)]">{averageProgress}%</p>
               </div>
             </div>
 
@@ -187,7 +187,7 @@ export default function LearningPage() {
                 <button
                   onClick={handleCreatePath}
                   disabled={isCreating}
-                  className="mt-4 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+                  className="mt-4 rounded-lg bg-[var(--brand-royal)] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
                 >
                   {isCreating ? "Creating..." : "Create my learning path"}
                 </button>
@@ -200,8 +200,8 @@ export default function LearningPage() {
                     onClick={() => setSelectedCourseId(course.id)}
                     className={`w-full rounded-xl border p-4 text-left ${
                       selectedCourse?.id === course.id
-                        ? "border-indigo-500 bg-indigo-50"
-                        : "border-zinc-200 hover:border-zinc-300"
+                        ? "border-[var(--brand-royal)] bg-blue-50"
+                        : "border-zinc-200 hover:border-blue-200"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-3">
@@ -211,11 +211,11 @@ export default function LearningPage() {
                           {course.level} · {course.duration}
                         </p>
                       </div>
-                      <p className="text-sm font-semibold text-indigo-600">{course.progress}%</p>
+                      <p className="text-sm font-semibold text-[var(--brand-royal)]">{course.progress}%</p>
                     </div>
                     <div className="mt-3 h-2 rounded-full bg-zinc-200">
                       <div
-                        className="h-2 rounded-full bg-indigo-500"
+                        className="h-2 rounded-full bg-[var(--brand-royal)]"
                         style={{ width: `${course.progress}%` }}
                       />
                     </div>
@@ -226,8 +226,8 @@ export default function LearningPage() {
           </div>
 
           <div className="space-y-4">
-            <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+            <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
                 Course details
               </p>
               {selectedCourse ? (
@@ -240,7 +240,7 @@ export default function LearningPage() {
                   <div className="mt-5 flex gap-3">
                     <button
                       onClick={() => handleProgress(15)}
-                      className="flex-1 rounded-lg bg-indigo-600 px-4 py-3 text-sm font-medium text-white hover:bg-indigo-500"
+                      className="flex-1 rounded-lg bg-[var(--brand-royal)] px-4 py-3 text-sm font-medium text-white hover:opacity-90"
                     >
                       Continue
                     </button>
@@ -259,8 +259,8 @@ export default function LearningPage() {
               )}
             </div>
 
-            <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+            <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
                 Milestones
               </p>
               <div className="mt-4 space-y-3 text-sm text-zinc-600">

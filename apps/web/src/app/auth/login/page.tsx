@@ -130,7 +130,7 @@ export default function LoginPage() {
             />
           </div>
           <button
-            className="w-full rounded-lg bg-zinc-900 px-4 py-3 text-sm font-medium text-white disabled:opacity-60"
+            className="w-full rounded-lg bg-[var(--brand-royal)] px-4 py-3 text-sm font-medium text-white disabled:opacity-60"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Logging in..." : "Log in"}
