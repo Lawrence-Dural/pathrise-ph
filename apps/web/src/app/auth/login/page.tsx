@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { fetchProfile, isSupabaseConfigured, signInWithPassword, upsertProfile } from "@/lib/supabase";
-import { isLoggedIn, saveSession } from "@/lib/session";
+import { clearSession, getSession, isLoggedIn, saveSession } from "@/lib/session";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,9 +17,25 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn()) {
+    const run = async () => {
+      if (!isLoggedIn()) return;
+
+      // If session exists but is invalid, clear it so login page is reachable.
+      const token = getSession()?.access_token;
+      if (!token) return;
+
+      if (isSupabaseConfigured) {
+        const { user } = await (await import("@/lib/supabase")).fetchAuthUser(token);
+        if (!user) {
+          clearSession();
+          return;
+        }
+      }
+
       router.replace("/dashboard");
-    }
+    };
+
+    void run();
   }, [router]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -89,6 +105,7 @@ export default function LoginPage() {
     <AppShell
       title="Log in to continue your job search"
       subtitle="Access your dashboard, saved matches, learning roadmap, and application history."
+      variant="auth"
     >
       <section className="mx-auto max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
         <form className="space-y-4" onSubmit={handleSubmit}>

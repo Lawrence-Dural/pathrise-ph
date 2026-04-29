@@ -26,6 +26,23 @@ export async function signInWithPassword(email: string, password: string) {
   return response.json();
 }
 
+export async function fetchAuthUser(accessToken: string) {
+  const { supabaseUrl, supabaseAnonKey } = getConfig();
+
+  const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    return { user: null };
+  }
+
+  return { user: await response.json() };
+}
+
 type SignUpInput = {
   email: string;
   password: string;

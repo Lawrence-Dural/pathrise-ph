@@ -9,11 +9,13 @@ export type AuthSession = {
 const SESSION_KEY = "pathrise.session";
 
 export function saveSession(session: AuthSession) {
-  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
 }
 
 export function getSession(): AuthSession | null {
-  const raw = localStorage.getItem(SESSION_KEY);
+  if (typeof window === "undefined") return null;
+  const raw = window.localStorage.getItem(SESSION_KEY);
   if (!raw) return null;
   try {
     return JSON.parse(raw) as AuthSession;
@@ -23,7 +25,8 @@ export function getSession(): AuthSession | null {
 }
 
 export function clearSession() {
-  localStorage.removeItem(SESSION_KEY);
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(SESSION_KEY);
 }
 
 export function isLoggedIn() {

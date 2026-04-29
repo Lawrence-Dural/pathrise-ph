@@ -93,6 +93,7 @@ export default function RegisterPage() {
     <AppShell
       title="Create your PathRise account"
       subtitle="Start with a profile that captures your skills, goals, and preferred type of work so recommendations can become more accurate."
+      variant="auth"
     >
       <section className="mx-auto max-w-2xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
         <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>

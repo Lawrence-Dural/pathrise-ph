@@ -3,7 +3,8 @@
 import { useEffect, type ReactNode, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import { isLoggedIn } from "@/lib/session";
+import { clearSession, getSession } from "@/lib/session";
+import { fetchAuthUser, isSupabaseConfigured } from "@/lib/supabase";
 
 export function AuthGate({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -11,12 +12,28 @@ export function AuthGate({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const loggedIn = isLoggedIn();
-    if (!loggedIn) {
-      router.replace(`/auth/login?next=${encodeURIComponent(pathname)}`);
-      return;
-    }
-    setReady(true);
+    const run = async () => {
+      const session = getSession();
+      const token = session?.access_token;
+
+      if (!token) {
+        router.replace(`/auth/login?next=${encodeURIComponent(pathname)}`);
+        return;
+      }
+
+      if (isSupabaseConfigured) {
+        const result = await fetchAuthUser(token);
+        if (!result.user) {
+          clearSession();
+          router.replace(`/auth/login?next=${encodeURIComponent(pathname)}`);
+          return;
+        }
+      }
+
+      setReady(true);
+    };
+
+    void run();
   }, [router, pathname]);
 
   if (!ready) {
