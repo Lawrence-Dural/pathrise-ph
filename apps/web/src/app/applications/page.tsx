@@ -134,6 +134,49 @@ export default function ApplicationsPage() {
           </div>
         </div>
 
+        <div className="mb-4 rounded-xl border border-blue-200/70 bg-blue-50/60 p-4">
+          <p className="text-sm font-medium text-[var(--brand-navy)]">Add application</p>
+          <p className="mt-1 text-xs text-[var(--text-slate)]">
+            Keep this updated for UAT so hiring stage transitions can be tested.
+          </p>
+          <div className="mt-3 grid gap-3 md:grid-cols-2">
+            <input
+              className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
+              placeholder="Role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            />
+            <input
+              className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
+              placeholder="Company"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+            />
+            <select
+              className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
+              value={status}
+              onChange={(e) => setStatus(e.target.value as typeof status)}
+            >
+              <option value="Applied">Applied</option>
+              <option value="Screening">Screening</option>
+              <option value="Interview">Interview</option>
+            </select>
+            <input
+              className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
+              placeholder="Next step (optional)"
+              value={nextStep}
+              onChange={(e) => setNextStep(e.target.value)}
+            />
+          </div>
+          <button
+            onClick={handleAdd}
+            disabled={isAdding || !role || !company}
+            className="mt-3 rounded-lg bg-[var(--brand-royal)] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+          >
+            {isAdding ? "Adding..." : "Add application"}
+          </button>
+        </div>
+
         <div className="space-y-3">
           {error ? (
             <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
@@ -151,42 +194,6 @@ export default function ApplicationsPage() {
               <p className="mt-1 text-sm text-zinc-600">
                 Add your first application and it will appear only for your account.
               </p>
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
-                <input
-                className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
-                  placeholder="Role"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                />
-                <input
-                className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
-                  placeholder="Company"
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                />
-                <select
-                  className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value as typeof status)}
-                >
-                  <option value="Applied">Applied</option>
-                  <option value="Screening">Screening</option>
-                  <option value="Interview">Interview</option>
-                </select>
-                <input
-                  className="rounded-lg border border-blue-200 px-3 py-2 text-sm"
-                  placeholder="Next step (optional)"
-                  value={nextStep}
-                  onChange={(e) => setNextStep(e.target.value)}
-                />
-              </div>
-              <button
-                onClick={handleAdd}
-                disabled={isAdding || !role || !company}
-                className="mt-4 rounded-lg bg-[var(--brand-royal)] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
-              >
-                {isAdding ? "Adding..." : "Add application"}
-              </button>
             </div>
           ) : (
             filteredApplications.map((application) => (

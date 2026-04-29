@@ -95,12 +95,12 @@ export default function RegisterPage() {
       subtitle="Start with a profile that captures your skills, goals, and preferred type of work so recommendations can become more accurate."
       variant="auth"
     >
-      <section className="mx-auto max-w-2xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section className="mx-auto max-w-2xl rounded-2xl border border-blue-200/70 bg-white p-6 shadow-sm">
         <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
           <div>
-            <label className="mb-1 block text-sm font-medium">Full name</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Full name</label>
             <input
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="w-full rounded-lg border border-blue-200 px-3 py-2 outline-none focus:border-[var(--brand-royal)]"
               type="text"
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
@@ -108,9 +108,9 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium">Email</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Email</label>
             <input
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="w-full rounded-lg border border-blue-200 px-3 py-2 outline-none focus:border-[var(--brand-royal)]"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
@@ -118,36 +118,36 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium">Location</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Location</label>
             <input
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="w-full rounded-lg border border-blue-200 px-3 py-2 outline-none focus:border-[var(--brand-royal)]"
               type="text"
               value={location}
               onChange={(event) => setLocation(event.target.value)}
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium">Target role</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Target role</label>
             <input
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="w-full rounded-lg border border-blue-200 px-3 py-2 outline-none focus:border-[var(--brand-royal)]"
               type="text"
               value={targetRole}
               onChange={(event) => setTargetRole(event.target.value)}
             />
           </div>
           <div className="md:col-span-2">
-            <label className="mb-1 block text-sm font-medium">Current skills</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Current skills</label>
             <textarea
-              className="min-h-28 w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="min-h-28 w-full rounded-lg border border-blue-200 px-3 py-2 outline-none focus:border-[var(--brand-royal)]"
               placeholder="Example: communication, Google Docs, customer service"
               value={skills}
               onChange={(event) => setSkills(event.target.value)}
             />
           </div>
           <div className="md:col-span-2">
-            <label className="mb-1 block text-sm font-medium">Password</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Password</label>
             <input
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="w-full rounded-lg border border-blue-200 px-3 py-2 outline-none focus:border-[var(--brand-royal)]"
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -163,7 +163,7 @@ export default function RegisterPage() {
             </button>
           </div>
         </form>
-        {message ? <p className="mt-4 text-sm text-zinc-500">{message}</p> : null}
+        {message ? <p className="mt-4 text-sm text-[var(--text-slate)]">{message}</p> : null}
       </section>
     </AppShell>
   );

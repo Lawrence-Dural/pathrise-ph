@@ -83,7 +83,7 @@ export default function JobsPage() {
         return { ...job, fit_score: Number.isFinite(fit) ? fit : 0 };
       })
       .sort((a, b) => (b.fit_score ?? 0) - (a.fit_score ?? 0));
-  }, [search]);
+  }, [jobs, profileSkills, search]);
 
   const selectedJob =
     (selectedJobId ? filteredJobs.find((job) => job.id === selectedJobId) : null) ??

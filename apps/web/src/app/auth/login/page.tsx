@@ -107,12 +107,12 @@ export default function LoginPage() {
       subtitle="Access your dashboard, saved matches, learning roadmap, and application history."
       variant="auth"
     >
-      <section className="mx-auto max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section className="mx-auto max-w-md rounded-2xl border border-blue-200/70 bg-white p-6 shadow-sm">
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="mb-1 block text-sm font-medium">Email</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Email</label>
             <input
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="w-full rounded-lg border border-blue-200 px-3 py-2 text-[var(--text-dark-slate)] outline-none focus:border-[var(--brand-royal)]"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
@@ -120,9 +120,9 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium">Password</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--brand-navy)]">Password</label>
             <input
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+              className="w-full rounded-lg border border-blue-200 px-3 py-2 text-[var(--text-dark-slate)] outline-none focus:border-[var(--brand-royal)]"
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -136,10 +136,10 @@ export default function LoginPage() {
             {isSubmitting ? "Logging in..." : "Log in"}
           </button>
         </form>
-        {message ? <p className="mt-4 text-sm text-zinc-500">{message}</p> : null}
-        <p className="mt-4 text-sm text-zinc-500">
+        {message ? <p className="mt-4 text-sm text-[var(--text-slate)]">{message}</p> : null}
+        <p className="mt-4 text-sm text-[var(--text-slate)]">
           New here?{" "}
-          <Link href="/auth/register" className="font-medium text-indigo-600">
+          <Link href="/auth/register" className="font-medium text-[var(--brand-royal)]">
             Create an account
           </Link>
         </p>

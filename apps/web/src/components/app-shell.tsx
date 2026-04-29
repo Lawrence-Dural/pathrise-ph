@@ -122,11 +122,16 @@ export function AppShell({ children, title, subtitle, variant = "app" }: AppShel
           ) : null}
         </header>
 
-        <section className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--brand-navy)] to-[var(--brand-royal)] p-6 text-white shadow-md">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-100">
+        <section
+          className="mb-6 rounded-2xl p-6 text-white shadow-md"
+          style={{
+            background: "linear-gradient(96deg, var(--brand-navy) 0%, var(--brand-royal) 100%)",
+          }}
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-100/90">
             PathRise MVP
           </p>
-          <h1 className="mt-2 text-3xl font-semibold">{title}</h1>
+          <h1 className="mt-2 text-3xl font-semibold text-white">{title}</h1>
           <p className="mt-2 max-w-2xl text-sm text-blue-100 md:text-base">{subtitle}</p>
         </section>
 

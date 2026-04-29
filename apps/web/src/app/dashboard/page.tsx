@@ -47,6 +47,12 @@ export default function DashboardPage() {
     return Math.round(avgFit * 0.7 + learningProgress * 0.3);
   }, [jobs, learningPath, learningProgress]);
 
+  const setupChecklist = [
+    { label: "Have job recommendations available", done: jobs.length > 0 },
+    { label: "Create your first learning path", done: learningPath.length > 0 },
+    { label: "Track at least one application", done: applications.length > 0 },
+  ];
+
   useEffect(() => {
     const run = async () => {
       try {
@@ -161,6 +167,27 @@ export default function DashboardPage() {
               href="/applications"
               cta="Open tracker"
             />
+            <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
+                UAT readiness
+              </p>
+              <div className="mt-3 space-y-2">
+                {setupChecklist.map((item) => (
+                  <div key={item.label} className="flex items-center justify-between rounded-lg bg-blue-50/60 px-3 py-2">
+                    <p className="text-sm text-[var(--text-dark-slate)]">{item.label}</p>
+                    <span
+                      className={`rounded-full px-2 py-1 text-xs font-semibold ${
+                        item.done
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "bg-amber-100 text-amber-700"
+                      }`}
+                    >
+                      {item.done ? "Done" : "Pending"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </AppShell>
