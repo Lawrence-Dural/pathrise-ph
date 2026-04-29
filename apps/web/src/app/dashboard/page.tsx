@@ -47,12 +47,6 @@ export default function DashboardPage() {
     return Math.round(avgFit * 0.7 + learningProgress * 0.3);
   }, [jobs, learningPath, learningProgress]);
 
-  const setupChecklist = [
-    { label: "Have job recommendations available", done: jobs.length > 0 },
-    { label: "Create your first learning path", done: learningPath.length > 0 },
-    { label: "Track at least one application", done: applications.length > 0 },
-  ];
-
   useEffect(() => {
     const run = async () => {
       try {
@@ -104,13 +98,13 @@ export default function DashboardPage() {
         </section>
 
         <section className="mt-6 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
+                <p className="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">
                   Top matches today
                 </p>
-                <p className="text-sm text-[var(--text-slate)]">
+                <p className="text-sm text-[var(--muted)]">
                   Start with roles you can realistically get now.
                 </p>
               </div>
@@ -126,20 +120,20 @@ export default function DashboardPage() {
               ) : null}
 
               {isLoading ? (
-                <div className="rounded-xl border border-zinc-200 p-4 text-sm text-zinc-500">
+                <div className="rounded-xl border border-[var(--border)] p-4 text-sm text-[var(--muted)]">
                   Loading matches...
                 </div>
               ) : jobs.length === 0 ? (
-                <div className="rounded-xl border border-dashed border-zinc-300 p-6 text-sm text-zinc-500">
+                <div className="rounded-xl border border-dashed border-[var(--border)] p-6 text-sm text-[var(--muted)]">
                   No jobs found yet. Seed your `jobs` table in Supabase to populate matches.
                 </div>
               ) : (
                 jobs.slice(0, 3).map((job) => (
-                  <div key={job.id} className="rounded-xl border border-zinc-200 p-4">
+                  <div key={job.id} className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-semibold">{job.title}</p>
-                        <p className="text-sm text-zinc-500">
+                        <p className="font-semibold text-[var(--text-strong)]">{job.title}</p>
+                        <p className="text-sm text-[var(--muted)]">
                           {job.company} · {job.location}
                         </p>
                       </div>
@@ -147,7 +141,7 @@ export default function DashboardPage() {
                         {job.fit_score ?? 0}% fit
                       </span>
                     </div>
-                    <p className="mt-2 text-sm text-zinc-600">{job.summary}</p>
+                    <p className="mt-2 text-sm text-[var(--muted)]">{job.summary}</p>
                   </div>
                 ))
               )}
@@ -167,27 +161,6 @@ export default function DashboardPage() {
               href="/applications"
               cta="Open tracker"
             />
-            <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--text-slate)]">
-                UAT readiness
-              </p>
-              <div className="mt-3 space-y-2">
-                {setupChecklist.map((item) => (
-                  <div key={item.label} className="flex items-center justify-between rounded-lg bg-blue-50/60 px-3 py-2">
-                    <p className="text-sm text-[var(--text-dark-slate)]">{item.label}</p>
-                    <span
-                      className={`rounded-full px-2 py-1 text-xs font-semibold ${
-                        item.done
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-amber-100 text-amber-700"
-                      }`}
-                    >
-                      {item.done ? "Done" : "Pending"}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </section>
       </AppShell>
@@ -197,9 +170,9 @@ export default function DashboardPage() {
 
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
-      <p className="text-xs uppercase tracking-wide text-[var(--text-slate)]">{label}</p>
-      <p className="mt-2 text-3xl font-semibold text-[var(--brand-navy)]">{value}</p>
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-sm">
+      <p className="text-xs uppercase tracking-wide text-[var(--muted)]">{label}</p>
+      <p className="mt-2 text-3xl font-semibold text-[var(--text-strong)]">{value}</p>
     </div>
   );
 }
@@ -216,9 +189,9 @@ function ActionCard({
   cta: string;
 }) {
   return (
-    <div className="rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
-      <p className="text-lg font-semibold text-[var(--brand-navy)]">{title}</p>
-      <p className="mt-2 text-sm text-[var(--text-slate)]">{body}</p>
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-sm">
+      <p className="text-lg font-semibold text-[var(--text-strong)]">{title}</p>
+      <p className="mt-2 text-sm text-[var(--muted)]">{body}</p>
       <Link
         href={href}
         className="mt-4 inline-flex rounded-lg bg-[var(--brand-royal)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"

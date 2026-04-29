@@ -69,26 +69,26 @@ export function AppShell({ children, title, subtitle, variant = "app" }: AppShel
   }, [isAuthVariant]);
 
   return (
-    <main className="min-h-screen bg-[var(--brand-light)] text-[var(--text-dark-slate)]">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <div className="mx-auto max-w-6xl px-6 py-8 md:py-10">
-        <header className="mb-6 rounded-2xl border border-blue-200/70 bg-white p-5 shadow-sm">
+        <header className="mb-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Link href="/dashboard" className="text-2xl font-semibold text-[var(--brand-navy)]">
+              <Link href="/dashboard" className="text-2xl font-semibold text-[var(--text-strong)]">
                 PathRise PH
               </Link>
-              <p className="text-sm text-[var(--text-slate)]">
+              <p className="text-sm text-[var(--muted)]">
                 Career guidance for Filipino youth and fresh graduates
               </p>
             </div>
             {!isAuthVariant && loggedIn ? (
               <div className="flex flex-col items-start gap-2 md:items-end">
-                <p className="text-sm text-[var(--text-slate)]">
+                <p className="text-sm text-[var(--muted)]">
                   Hello,{" "}
-                  <span className="font-semibold text-[var(--brand-navy)]">{userName ?? "..."}</span>
+                  <span className="font-semibold text-[var(--text-strong)]">{userName ?? "..."}</span>
                 </p>
                 <button
-                  className="rounded-lg border border-blue-200 px-4 py-2 text-sm font-medium text-[var(--brand-navy)] hover:bg-blue-50"
+                  className="rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 text-sm font-medium text-[var(--foreground)] hover:opacity-90"
                   onClick={() => {
                     clearSession();
                     router.replace("/auth/login");
@@ -110,8 +110,8 @@ export function AppShell({ children, title, subtitle, variant = "app" }: AppShel
                     href={item.href}
                     className={`rounded-full px-4 py-2 text-sm font-medium ${
                       isActive
-                      ? "bg-[var(--brand-navy)] text-white"
-                      : "border border-blue-200 bg-white text-[var(--text-slate)] hover:border-[var(--brand-royal)] hover:text-[var(--brand-royal)]"
+                      ? "bg-[var(--brand-royal)] text-white"
+                      : "border border-[var(--border)] bg-[var(--surface-soft)] text-[var(--muted)] hover:border-[var(--brand-royal)] hover:text-[var(--brand-light)]"
                     }`}
                   >
                     {item.label}
