@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
-
-import { navItems } from "@/lib/mvp-data";
+import { useEffect, useState } from "react";
 import { clearSession, getSession } from "@/lib/session";
 import { fetchProfile, isSupabaseConfigured } from "@/lib/supabase";
 
@@ -15,6 +13,13 @@ type AppShellProps = {
   subtitle: string;
   variant?: "app" | "auth";
 };
+
+const navItems = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/learning", label: "Learning" },
+  { href: "/applications", label: "Applications" },
+];
 
 function getFallbackName() {
   const session = getSession();
