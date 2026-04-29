@@ -164,14 +164,13 @@ async function getJobs() {
   }));
 }
 
-async function getLearningPath() {
+async function getLearningPath(profileId?: string) {
   if (!isSupabaseConfigured) {
     return learningPath;
   }
 
-  const profileId = process.env.DEMO_PROFILE_ID;
   if (!profileId) {
-    return learningPath;
+    return [];
   }
 
   const data = await fetchSupabaseTable<SupabaseLearningPathRow>(
@@ -179,20 +178,19 @@ async function getLearningPath() {
     `?select=*&profile_id=eq.${profileId}&order=created_at.asc`,
   );
   if (!data || data.length === 0) {
-    return learningPath;
+    return [];
   }
 
   return data;
 }
 
-async function getApplications() {
+async function getApplications(profileId?: string) {
   if (!isSupabaseConfigured) {
     return applications;
   }
 
-  const profileId = process.env.DEMO_PROFILE_ID;
   if (!profileId) {
-    return applications;
+    return [];
   }
 
   const data = await fetchSupabaseTable<SupabaseApplicationRow>(
@@ -200,7 +198,7 @@ async function getApplications() {
     `?select=*&profile_id=eq.${profileId}&order=created_at.desc`,
   );
   if (!data || data.length === 0) {
-    return applications;
+    return [];
   }
 
   return data.map((application) => ({
@@ -227,22 +225,40 @@ app.get("/", (_req: Request, res: Response) => {
   });
 });
 
-app.get("/dashboard", async (_req: Request, res: Response) => {
+app.get("/dashboard", async (req: Request, res: Response) => {
+  const profileId =
+    (typeof req.query.profile_id === "string" ? req.query.profile_id : undefined) ??
+    process.env.DEMO_PROFILE_ID;
   const currentJobs = await getJobs();
-  const currentLearningPath = await getLearningPath();
-  const currentApplications = await getApplications();
-  const averageProgress = Math.round(
-    currentLearningPath.reduce((total, course) => total + course.progress, 0) /
-      currentLearningPath.length,
-  );
+  const currentLearningPath = await getLearningPath(profileId);
+  const currentApplications = await getApplications(profileId);
+  const averageProgress =
+    currentLearningPath.length === 0
+      ? 0
+      : Math.round(
+          currentLearningPath.reduce((total, course) => total + course.progress, 0) /
+            currentLearningPath.length,
+        );
+  const matchScore =
+    currentLearningPath.length === 0 || currentJobs.length === 0
+      ? 0
+      : Math.round(
+          currentJobs.slice(0, 5).reduce((total, job) => total + (job.fit || 0), 0) /
+            Math.min(currentJobs.length, 5) *
+            0.7 +
+            averageProgress * 0.3,
+        );
 
   res.json({
-    matchScore: 84,
+    matchScore,
     recommendedJobs: currentJobs.length,
     learningProgress: averageProgress,
     activeApplications: currentApplications.length,
-    nextAction: "Complete Google Workspace Essentials and apply to one high-fit role.",
-    source: isSupabaseConfigured ? "supabase-or-fallback" : "demo",
+    nextAction:
+      currentLearningPath.length === 0
+        ? "Create your first learning path to start improving your dashboard metrics."
+        : "Complete your next learning module and apply to one matching role.",
+    source: isSupabaseConfigured ? "supabase-user-data" : "demo",
   });
 });
 
@@ -250,12 +266,18 @@ app.get("/jobs", async (_req: Request, res: Response) => {
   res.json(await getJobs());
 });
 
-app.get("/learning-path", async (_req: Request, res: Response) => {
-  res.json(await getLearningPath());
+app.get("/learning-path", async (req: Request, res: Response) => {
+  const profileId =
+    (typeof req.query.profile_id === "string" ? req.query.profile_id : undefined) ??
+    process.env.DEMO_PROFILE_ID;
+  res.json(await getLearningPath(profileId));
 });
 
-app.get("/applications", async (_req: Request, res: Response) => {
-  res.json(await getApplications());
+app.get("/applications", async (req: Request, res: Response) => {
+  const profileId =
+    (typeof req.query.profile_id === "string" ? req.query.profile_id : undefined) ??
+    process.env.DEMO_PROFILE_ID;
+  res.json(await getApplications(profileId));
 });
 
 const PORT = process.env.PORT || 4000;
